@@ -1,7 +1,11 @@
 # tcom
  A microservice app that provides apis to perform some basic company related operations.
+- APIs are live at [https://tcom-node-api.herokuapp.com/](https://tcom-node-api.herokuapp.com/)
 
-### Setup
+- Postman Collection JSON Link
+[https://www.getpostman.com/collections/670b124549fcf9f062f4](https://www.getpostman.com/collections/670b124549fcf9f062f4)
+
+### Local Setup
 0. Make sure that you have Node in your system. If not please install the Node first.
 1. Install all the required dependencies
     <!-- - `npm install -g typescript` to install typescript globally in your system
@@ -24,7 +28,7 @@
 5. Run the server in the Production mode using the below command
     `npm start`
 
-- Postman Collection JSON Link
+### Importing Postman Collection JSON Link
     - https://www.getpostman.com/collections/670b124549fcf9f062f4
     - Copy this link and go to postman
     - Click on File > Import
