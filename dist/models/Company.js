@@ -10,9 +10,21 @@ var schema = new mongoose_1["default"].Schema({
         unique: true,
         required: true
     },
-    company_name: String,
-    company_ceo: String,
-    company_address: String,
-    inception_date: String
+    company_name: {
+        type: String,
+        required: true
+    },
+    company_ceo: {
+        type: String,
+        required: true
+    },
+    company_address: {
+        type: String,
+        required: true
+    },
+    inception_date: {
+        type: String,
+        required: true
+    }
 });
 exports["default"] = mongoose_1["default"].model("Company", schema);

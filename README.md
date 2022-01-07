@@ -23,3 +23,10 @@
     `npm run dev`
 5. Run the server in the Production mode using the below command
     `npm start`
+
+- Postman Collection JSON Link
+    - https://www.getpostman.com/collections/670b124549fcf9f062f4
+    - Copy this link and go to postman
+    - Click on File > Import
+    - Go to Link Tab in the import pop up
+    - Paste the link and Continue

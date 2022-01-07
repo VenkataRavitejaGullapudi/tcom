@@ -46,27 +46,51 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
 var express_1 = __importDefault(require("express"));
 var uuid_1 = require("uuid");
+var auth_1 = require("../middlewares/auth");
 var Company_1 = __importDefault(require("../models/Company"));
 var router = express_1["default"].Router();
-router.post('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var company, err_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+router.post('/', auth_1.validateToken, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var company, _a, _id, __v, wantedFields, err_1, errors, field;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
+                _b.trys.push([0, 2, , 3]);
                 return [4 /*yield*/, Company_1["default"].create(__assign(__assign({}, req.body), { uuid: (0, uuid_1.v4)() }))];
             case 1:
-                company = _a.sent();
-                res.status(201).json(company);
+                company = _b.sent();
+                _a = company._doc, _id = _a._id, __v = _a.__v, wantedFields = __rest(_a, ["_id", "__v"]);
+                res.status(201).json(wantedFields);
                 return [3 /*break*/, 3];
             case 2:
-                err_1 = _a.sent();
+                err_1 = _b.sent();
+                if (err_1.name == 'ValidationError') {
+                    errors = [];
+                    for (field in err_1.errors) {
+                        errors.push({
+                            name: err_1.errors[field].name,
+                            message: err_1.errors[field].message
+                        });
+                        console.log(err_1.errors[field].message);
+                    }
+                    return [2 /*return*/, res.status(422).json(errors)];
+                }
                 console.log(err_1);
                 res.status(400).json({
                     "message": "Something went wrong"
@@ -76,46 +100,24 @@ router.post('/', function (req, res) { return __awaiter(void 0, void 0, void 0, 
         }
     });
 }); });
-router.get("/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, company, err_2;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                id = req.params.id;
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, Company_1["default"].findOne({
-                        uuid: id
-                    })];
-            case 2:
-                company = _a.sent();
-                res.status(200).json(company);
-                return [3 /*break*/, 4];
-            case 3:
-                err_2 = _a.sent();
-                console.log(err_2);
-                res.status(400).json({
-                    "message": "Something went wrong"
-                });
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
-        }
-    });
-}); });
-router.get("/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var company_name, companies, err_3;
+router.get("/search", auth_1.validateToken, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var company_name, companies, err_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 company_name = req.query.company_name;
+                if (!company_name) {
+                    return [2 /*return*/, res.status(429).json({
+                            message: "No company name provided in Query params"
+                        })];
+                }
                 console.log(req.query);
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
                 return [4 /*yield*/, Company_1["default"].find({
                         company_name: company_name
-                    })];
+                    }, { _id: 0, __v: 0 })];
             case 2:
                 companies = _a.sent();
                 console.log(companies);
@@ -131,6 +133,38 @@ router.get("/", function (req, res) { return __awaiter(void 0, void 0, void 0, f
                         count: 0
                     });
                 }
+                return [3 /*break*/, 4];
+            case 3:
+                err_2 = _a.sent();
+                console.log(err_2);
+                res.status(400).json({
+                    "message": "Something went wrong"
+                });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
+router.get("/:id", auth_1.validateToken, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, company, err_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                id = req.params.id;
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, Company_1["default"].findOne({
+                        uuid: id
+                    }, { _id: 0, __v: 0 })];
+            case 2:
+                company = _a.sent();
+                if (!company) {
+                    res.status(200).json({
+                        message: "No Company found"
+                    });
+                }
+                res.status(200).json(company);
                 return [3 /*break*/, 4];
             case 3:
                 err_3 = _a.sent();

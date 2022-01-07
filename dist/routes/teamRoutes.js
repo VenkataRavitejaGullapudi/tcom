@@ -52,11 +52,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 var express_1 = __importDefault(require("express"));
 var uuid_1 = require("uuid");
+var auth_1 = require("../middlewares/auth");
 var Company_1 = __importDefault(require("../models/Company"));
 var Team_1 = __importDefault(require("../models/Team"));
 var router = express_1["default"].Router();
-router.post('/:company_id', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var company_id, comp, team, err_1;
+router.post('/:company_id', auth_1.validateToken, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var company_id, comp, team, err_1, errors, field;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -83,6 +84,17 @@ router.post('/:company_id', function (req, res) { return __awaiter(void 0, void 
             case 4:
                 err_1 = _a.sent();
                 console.log(err_1);
+                if (err_1.name == 'ValidationError') {
+                    errors = [];
+                    for (field in err_1.errors) {
+                        errors.push({
+                            name: err_1.errors[field].name,
+                            message: err_1.errors[field].message
+                        });
+                        console.log(err_1.errors[field].message);
+                    }
+                    return [2 /*return*/, res.status(422).json(errors)];
+                }
                 res.status(400).json({
                     "message": "Something went wrong"
                 });

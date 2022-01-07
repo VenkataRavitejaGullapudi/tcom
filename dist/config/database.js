@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 var mongoose_1 = __importDefault(require("mongoose"));
 function connectToDB() {
-    mongoose_1["default"].connect('mongodb://localhost:27017/techwondoe')
+    mongoose_1["default"].connect("".concat(process.env.MONGODB_URL))
         .then(function (conn) { return console.log("Connected to DB..."); })["catch"](function (err) {
         console.log("Db not connected");
         console.log(err);

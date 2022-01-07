@@ -39,30 +39,35 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
+var cookie_parser_1 = __importDefault(require("cookie-parser"));
 var dotenv_1 = __importDefault(require("dotenv"));
 var express_1 = __importDefault(require("express"));
 var database_1 = __importDefault(require("./config/database"));
+var auth_1 = require("./middlewares/auth");
 var Company_1 = __importDefault(require("./models/Company"));
 var Team_1 = __importDefault(require("./models/Team"));
 var companyRoutes_1 = __importDefault(require("./routes/companyRoutes"));
 var teamRoutes_1 = __importDefault(require("./routes/teamRoutes"));
+var tokenRoutes_1 = __importDefault(require("./routes/tokenRoutes"));
 dotenv_1["default"].config();
 var app = (0, express_1["default"])();
 (0, database_1["default"])();
 var API_PORT = process.env.API_PORT || 8000;
 app.use(express_1["default"].json());
+app.use((0, cookie_parser_1["default"])());
 app.get('/', function (req, res) {
-    res.send("Welcome to our apis");
+    res.render("home");
 });
 app.use('/api/v1/company', companyRoutes_1["default"]);
 app.use('/api/v1/team', teamRoutes_1["default"]);
-app.get('/api/v1/allteams', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+app.use('/api/v1/token', tokenRoutes_1["default"]);
+app.get('/api/v1/allteams', auth_1.validateToken, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var companies, i, teams, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 6, , 7]);
-                return [4 /*yield*/, Company_1["default"].find({})];
+                return [4 /*yield*/, Company_1["default"].find({}, { _id: 0, __v: 0 }).lean()];
             case 1:
                 companies = _a.sent();
                 i = 0;
@@ -71,11 +76,10 @@ app.get('/api/v1/allteams', function (req, res) { return __awaiter(void 0, void 
                 if (!(i < companies.length)) return [3 /*break*/, 5];
                 return [4 /*yield*/, Team_1["default"].find({
                         company_id: companies[i].uuid
-                    })];
+                    }, { _id: 0, __v: 0 })];
             case 3:
                 teams = _a.sent();
-                companies[i].teams = "klk";
-                console.log(companies);
+                companies[i].teams = teams;
                 _a.label = 4;
             case 4:
                 i++;
@@ -99,6 +103,7 @@ app.get('/api/v1/allteams', function (req, res) { return __awaiter(void 0, void 
         }
     });
 }); });
+app.set("view engine", "ejs");
 app.listen(API_PORT, function () {
     console.log("Server Running at Port ".concat(API_PORT));
 });

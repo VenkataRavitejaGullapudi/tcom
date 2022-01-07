@@ -20,7 +20,7 @@ app.use(cookieParser())
 
 
 app.get('/',(req:Request,res:Response)=>{
-    res.send("Welcome to our apis")
+    res.render("home")
 })
 
 app.use('/api/v1/company',companyRoutes)
@@ -50,6 +50,8 @@ app.get('/api/v1/allteams',validateToken,async(req:Request,res:Response)=>{
         })
     }
 })
+
+app.set("view engine","ejs")
 
 
 
