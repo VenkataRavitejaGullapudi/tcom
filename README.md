@@ -23,3 +23,6 @@
     `npm run dev`
 5. Run the server in the Production mode using the below command
     `npm start`
+    
+- This APP's Functional Requirements are as below
+![image](https://user-images.githubusercontent.com/70102577/148520237-25391619-574b-40f6-84be-a95591889300.png)
