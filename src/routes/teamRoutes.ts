@@ -20,7 +20,8 @@ router.post('/:company_id', validateToken, async (req: Request, res: Response) =
                 message: "Given Company not found"
             })
         const team:any = await Team.create({ ...req.body, company_id, uuid: uuid4() })
-        res.status(201).json(team)
+        const {_id,__v,...wantedFields} = team._doc
+        res.status(201).json(wantedFields)
     }
     catch (err: any) {
         console.log(err)
