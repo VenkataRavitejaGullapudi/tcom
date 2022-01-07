@@ -37,3 +37,15 @@
     
 - This APP's Functional Requirements are as below
 ![image](https://user-images.githubusercontent.com/70102577/148520237-25391619-574b-40f6-84be-a95591889300.png)
+
+
+### Hitting APIs
+- First hit the token API to get the token
+- And then using those token either in the authorization header or in the cookie will give the access to hit the apis.
+- Endpoints Available
+    0. {{HOST}}/api/v1/token   **GET**
+    1. {{HOST}}/api/v1/company    **POST**
+    2. {{HOST}}/api/v1/company/COMPANYUUID   **GET**
+    3. {{HOST}}/api/v1/company/search?company_name=NAME   **GET**
+    4. {{HOST}}/api/v1/team/COMPANYUUID   **POST**
+    5. {{HOST}}/api/v1/allteams   **GET**
