@@ -49,3 +49,4 @@
     3. {{HOST}}/api/v1/company/search?company_name=NAME   **GET**
     4. {{HOST}}/api/v1/team/COMPANYUUID   **POST**
     5. {{HOST}}/api/v1/allteams   **GET**
+    
