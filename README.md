@@ -13,7 +13,7 @@
     `tsc --version` -->
     - Run `npm install` to install all the dependencies mentioned in the project(package.json)
 2. Create a .env file in the root folder. And Add the following variables in the .env:
-    a. API_PORT= PORT to run the application
+    a. PORT= PORT to run the application
     b. API_SECRET= SECRET Key to sign and validate JWT tokens
     c. MONGODB_URL = For connecting to db. Ref point 3
     - Also check for the .env.sample for your reference

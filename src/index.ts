@@ -13,7 +13,7 @@ const app: Application = express()
 
 
 connectToDB();
-const API_PORT = process.env.API_PORT || 8000
+const PORT = process.env.PORT || 8000
 
 app.use(express.json())
 app.use(cookieParser())
@@ -55,6 +55,6 @@ app.set("view engine","ejs")
 
 
 
-app.listen(API_PORT, (): void => {
-    console.log(`Server Running at Port ${API_PORT}`)
+app.listen(PORT, (): void => {
+    console.log(`Server Running at Port ${PORT}`)
 })

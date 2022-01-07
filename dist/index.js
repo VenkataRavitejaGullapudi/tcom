@@ -52,7 +52,7 @@ var tokenRoutes_1 = __importDefault(require("./routes/tokenRoutes"));
 dotenv_1["default"].config();
 var app = (0, express_1["default"])();
 (0, database_1["default"])();
-var API_PORT = process.env.API_PORT || 8000;
+var PORT = process.env.PORT || 8000;
 app.use(express_1["default"].json());
 app.use((0, cookie_parser_1["default"])());
 app.get('/', function (req, res) {
@@ -104,6 +104,6 @@ app.get('/api/v1/allteams', auth_1.validateToken, function (req, res) { return _
     });
 }); });
 app.set("view engine", "ejs");
-app.listen(API_PORT, function () {
-    console.log("Server Running at Port ".concat(API_PORT));
+app.listen(PORT, function () {
+    console.log("Server Running at Port ".concat(PORT));
 });
