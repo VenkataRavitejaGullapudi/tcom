@@ -34,3 +34,6 @@
     - Click on File > Import
     - Go to Link Tab in the import pop up
     - Paste the link and Continue
+    
+- This APP's Functional Requirements are as below
+![image](https://user-images.githubusercontent.com/70102577/148520237-25391619-574b-40f6-84be-a95591889300.png)
